@@ -1,0 +1,30 @@
+---
+import media from '../data/media.json';
+
+interface Props {
+  file: string;
+  sizes: string;
+  class?: string;
+  alt?: string;
+  priority?: boolean;
+}
+
+const { file, sizes, class: className, alt = '', priority = false } = Astro.props;
+const m = media[file as keyof typeof media] as { name: string; w: number; h: number; widths: number[] };
+const set = (ext: string) => m.widths.map((w) => `/img/${m.name}-${w}.${ext} ${w}w`).join(', ');
+---
+
+<picture class={className}>
+  <source type="image/avif" srcset={set('avif')} sizes={sizes} />
+  <img
+    src={`/img/${m.name}-${m.widths.at(-1)}.webp`}
+    srcset={set('webp')}
+    sizes={sizes}
+    width={m.w}
+    height={m.h}
+    alt={alt}
+    decoding="async"
+    loading={priority ? undefined : 'lazy'}
+    fetchpriority={priority ? 'high' : undefined}
+  />
+</picture>

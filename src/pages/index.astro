@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Loader from '../components/Loader.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Img from '../components/Img.astro';
+import Video from '../components/Video.astro';
+import { projects } from '../data/projects';
+import '../styles/home.css';
+
+const title = 'Henrique Menezzo — Sênior Product Designer (UI/UX) | Design Systems & SaaS';
+const description = 'Product Designer focused on UI/UX, Design Systems and SaaS. Experience working with startups, complex platforms and business-impact oriented design.';
+const marquee = 'Sênior Product Designer - UI and Design System Specialist - ';
+const linkedin = 'https://www.linkedin.com/in/henrique-m-715253204/';
+const photoSizes = '(max-width: 575px) 685px, (max-width: 1199px) 908px, max(960px, 112vh)';
+
+const rowOne = ['qhpYEbMrAxcmr3qXOgQfb6QJDY', 'Qq2kUKiK9HOk5t8Yq7cIuks8Up8', 'CRljZUYc9UtDZqlZOgsErBUCGVg', 'qYPzqzyufmV4PvHOu7nQWEoCGk', '6yeyRX6hHFE56EDXDCEgZMlYtTg', 'GX32Pu9YkksLc0GTpCFeWyNMI', 'wE6CB6b4wdfN073dND1XgGAGQ78'];
+const rowTwo = ['YN0Jgn6CbvoPc5MjVcLkO8PmdYg', 'iB4ibeWH3JW1mRyKV4s0bHe4M', 'NRL6I595AtaVb1qQkCeFwJ99Io', 'hYtfCr82VCyzeywXrZL1j5aq4I', 'zEpdMK8T7Xo1U4SXMIZv7OblA', 'oxi2NXHdiQonhslIpc4oK3CI8M'];
+---
+
+<Base {title} {description} page="home">
+  <link slot="head" rel="preload" as="image" type="image/avif" imagesrcset="/img/hero-1400.avif 1400w, /img/hero-2000.avif 2000w, /img/hero-2800.avif 2800w" imagesizes={photoSizes} />
+  <div class="home">
+    <Nav />
+
+    <section id="hero" class="hero">
+      <h1 class="sr-only">Henrique Menezzo, Senior Product Designer</h1>
+      <div class="hero-media">
+        <picture class="hero-photo" data-photo>
+          <source type="image/avif" srcset="/img/hero-1400.avif 1400w, /img/hero-2000.avif 2000w, /img/hero-2800.avif 2800w" sizes={photoSizes} />
+          <img src="/img/hero-2000.webp" srcset="/img/hero-1400.webp 1400w, /img/hero-2000.webp 2000w, /img/hero-2800.webp 2800w" sizes={photoSizes} width="2800" height="2800" alt="Henrique Menezzo" decoding="async" fetchpriority="high" />
+        </picture>
+        <canvas class="hero-trail" data-trail aria-hidden="true"></canvas>
+      </div>
+      <div class="hero-row">
+        <p class="hero-lead">Product Designer with 5+ years of experience, focused on UI, Design Systems, and interaction design.</p>
+        <a class="cta" href={linkedin} target="_blank" rel="noopener" data-speed="135">
+          <span class="cta-fill"></span>
+          <span class="cta-label">Let's connect</span>
+        </a>
+      </div>
+      <div class="marquee" aria-label={marquee.trim()}>
+        <ul>
+          <li><h2>{marquee}</h2></li>
+          <li aria-hidden="true"><span>{marquee}</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="services" class="work">
+      <h2 class="work-title">PROJECTS</h2>
+      {
+        projects.map((p, i) => (
+          <a class="project" href={p.href} data-cursor-card data-card={i}>
+            <div class="project-row">
+              <h2 class="project-name">
+                {p.title}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+              </h2>
+              <div class="project-text">
+                <p>{p.body}</p>
+                <span class="project-open">View project</span>
+              </div>
+            </div>
+            <div class:list={['project-card', p.slug]} data-tint={'tint' in p.card ? p.card.tint : undefined}>
+              <Img class="bg" file={'phone' in p.card ? p.card.phone : p.card.bg} sizes="342px" />
+              {p.card.shots.map(([file, kind]) => <Img class={`panel-shot ${kind}`} file={file} sizes="(max-width: 767px) 92vw, 1px" />)}
+            </div>
+          </a>
+        ))
+      }
+    </section>
+
+    <section id="about" class="about">
+      <div class="about-copy">
+        <p class="about-big">I help tech companies build scalable, high-impact products through strong UI, Design Systems, and interaction-driven design.</p>
+        <p class="about-small">I’m a Senior Product Designer with 5+ years of experience, focused on UI excellence, design systems, and interaction design.</p>
+      </div>
+      <div class="tiles" data-speed="101" data-speed-p="100">
+        <div class="tiles-track">
+          <div class="tiles-row" data-range="#about,#footer" data-values="180,0,-112">
+            {rowOne.map((id) => <div class="tile"><Video file={`${id}.mp4`} /></div>)}
+          </div>
+        </div>
+        <div class="tiles-track">
+          <div class="tiles-row" data-range="#about,#footer" data-values="-105,0,112">
+            {rowTwo.map((id) => <div class="tile"><Video file={`${id}.mp4`} /></div>)}
+            <div class="tile"><Img file="3FFsHkO3VUqcm20jVXTubB8Xqpg.jpg" sizes="clamp(352px, 30vw, 680px)" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Footer kind="home" id="footer" wide />
+  </div>
+  <Loader />
+</Base>

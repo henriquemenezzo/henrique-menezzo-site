@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+import HoverCard from '../components/HoverCard.astro';
+import openProject from '../scripts/open-project.js?raw';
+
+interface Props {
+  title: string;
+  description: string;
+  page: string;
+}
+
+const { title, description, page } = Astro.props;
+// Projeto mostrado no card ao passar sobre "Next project" de cada case.
+const next = { tex: 1, babel: 2, dare: 3, goldcare: 4, playground: 0 }[page];
+// Os cases crescem com a janela na proporção de 1500 px. Roda antes do primeiro desenho.
+const fitCase = `(function () {
+  var root = document.documentElement;
+  var fit = function () {
+    root.style.setProperty('--zoom', Math.max(1, root.clientWidth / 1500));
+  };
+  fit();
+  addEventListener('resize', fit);
+})();`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.jpg', Astro.site);
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <link rel="canonical" href={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/neue-montreal-book.woff2" as="font" type="font/woff2" crossorigin />
+    {page !== 'home' && <script is:inline set:html={fitCase} />}
+    <script is:inline set:html={openProject} />
+    <slot name="head" />
+  </head>
+  <body data-page={page} data-next={next}>
+    <slot />
+    <HoverCard />
+    <div class="cursor" aria-hidden="true"></div>
+    <script src="../scripts/main.ts"></script>
+  </body>
+</html>

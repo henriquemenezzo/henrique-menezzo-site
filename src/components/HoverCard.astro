@@ -1,0 +1,27 @@
+---
+import Img from './Img.astro';
+import { projects } from '../data/projects';
+---
+
+<div class="card" aria-hidden="true" hidden>
+  <div class="card-box">
+    <div class="card-inner">
+      <div class="card-stack">
+        {
+          projects.map(({ card }) => (
+            <div class="panel" data-tint={'tint' in card ? card.tint : undefined}>
+              <Img class="bg" file={card.bg} sizes="(min-width: 1900px) 760px, 40vw" />
+              {card.shots.map(([file, kind]) => (
+                <Img class={`panel-shot ${kind}`} file={file} sizes={kind === 'ds' ? '560px' : kind === 'erp' ? '660px' : '240px'} />
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+  <span class="card-badge">
+    <span>View project</span>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+  </span>
+</div>

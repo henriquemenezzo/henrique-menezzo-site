@@ -1,0 +1,282 @@
+---
+import icons from '../data/icons.json';
+
+interface Props {
+  // home: conteúdo absoluto que desce com parallax. case: conteúdo sticky.
+  kind?: 'home' | 'case';
+  id?: string;
+  // Cada página calibra o parallax do rodapé para a própria altura.
+  motion?: Record<string, string | number>;
+  largeCredit?: boolean;
+  fixedHeight?: number;
+  // Acompanha as margens do menu em vez do limite de 1400 px dos cases.
+  wide?: boolean;
+}
+
+const { kind = 'case', id, motion: pageMotion, largeCredit = false, fixedHeight, wide = false } = Astro.props;
+const links = [
+  { label: 'Linkedin', href: 'https://www.linkedin.com/in/henrique-m-715253204/', icon: icons.linkedin },
+  { label: 'Dribbble', href: 'https://dribbble.com/riklima111', icon: icons.dribbble },
+  { label: 'Resume', href: 'https://docs.google.com/document/d/1_7cT3_l2zqVAB3M8XQtUUjJT54D-XxCx/edit?usp=sharing&ouid=113979856902625540699&rtpof=true&sd=true', icon: icons.note },
+  { label: 'WhatsApp', href: 'https://api.whatsapp.com/send/?phone=%2B5517988081577&text&type=phone_number&app_absent=0', icon: icons.whatsapp },
+];
+const motion =
+  pageMotion ??
+  (kind === 'home'
+    ? { 'data-speed': 72, 'data-speed-xl': 75, 'data-speed-lg': 70, 'data-speed-t': 69, 'data-speed-p': 70 }
+    : { 'data-speed': 75, 'data-adjust': '', 'data-offset': 80, 'data-speed-xl': 80, 'data-offset-xl': 70, 'data-speed-t': 70, 'data-speed-p': 70, 'data-offset-p': 100 });
+---
+
+<footer id={id} class:list={['footer', `is-${kind}`, { wide }]} style={fixedHeight ? `height:${fixedHeight}px;min-height:0` : undefined}>
+  <div class="footer-content" {...motion}>
+    <div class="footer-top">
+      <div class="footer-logo"><p>Let's talk?</p></div>
+      <div class="footer-links">
+        <div class="footer-col">
+          {
+            links.slice(0, 2).map((l) => (
+              <a href={l.href} target="_blank" rel="noopener">
+                <span class="footer-icon" set:html={l.icon} />
+                {l.label}
+              </a>
+            ))
+          }
+        </div>
+        <div class="footer-col">
+          {
+            links.slice(2).map((l) => (
+              <a href={l.href} target="_blank" rel="noopener">
+                <span class="footer-icon" set:html={l.icon} />
+                {l.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    <div class="footer-rule"></div>
+    <a class:list={['footer-credit', { large: largeCredit }]} href="/#hero">© Henrique Menezzo</a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    z-index: 0;
+    order: 99;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .footer.is-home {
+    height: 515px;
+  }
+
+  .footer.is-case {
+    padding: 220px 48px 80px;
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    width: 100%;
+    max-width: 1400px;
+  }
+
+  .is-home .footer-content {
+    position: absolute;
+    top: -730px;
+    left: 50%;
+    width: 92%;
+    transform: translateX(-50%);
+  }
+
+  .wide .footer-content {
+    width: calc(100% - 96px);
+    max-width: none;
+  }
+
+  @media (max-width: 1199.98px) {
+    .wide .footer-content {
+      width: calc(100% - 64px);
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .wide .footer-content {
+      width: calc(100% - 48px);
+    }
+  }
+
+  .is-case .footer-content {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    width: 561px;
+    aspect-ratio: 392 / 106;
+    container-type: inline-size;
+  }
+
+  .footer-logo p {
+    font-size: 25.712cqw;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    white-space: pre;
+  }
+
+  .footer-links {
+    display: flex;
+    flex: none;
+    gap: 56px;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .footer-col a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 35px;
+    font-size: 20px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .footer-icon {
+    display: block;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+
+  .footer-rule {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .footer-credit {
+    width: fit-content;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .footer-credit.large {
+    font-size: 20px;
+  }
+
+  @media (min-width: 1920px) {
+    :global([data-page='home']) .footer.is-home {
+      height: 662px;
+    }
+
+    :global([data-page='home']) .is-home .footer-content {
+      top: -850px;
+    }
+  }
+
+  @media (min-width: 2560px) {
+    :global([data-page='home']) .footer.is-home {
+      height: auto;
+      min-height: 662px;
+    }
+
+    :global([data-page='home']) .is-home .footer-content {
+      top: -680px;
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .footer.is-home {
+      height: 667px;
+    }
+
+    .is-home .footer-content {
+      top: -1000px;
+      gap: 64px;
+    }
+
+    .footer.is-case {
+      padding: 200px 32px 82px;
+    }
+
+    .is-case .footer-content {
+      gap: 64px;
+    }
+
+    .footer-top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 82px;
+    }
+
+    .footer-col {
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .footer.is-home {
+      height: 598px;
+    }
+
+    .is-home .footer-content {
+      top: -1250px;
+      gap: 48px;
+    }
+
+    .footer.is-case {
+      padding: 180px 24px 80px;
+    }
+
+    .is-case .footer-content {
+      gap: 48px;
+    }
+
+    .footer-top {
+      gap: 42px;
+    }
+
+    .footer-logo {
+      width: 86%;
+    }
+
+    .footer-links {
+      gap: 32px;
+    }
+
+    .footer-col {
+      gap: 0;
+    }
+
+    .footer-col a {
+      height: 44px;
+    }
+
+    .footer-credit {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+  }
+</style>

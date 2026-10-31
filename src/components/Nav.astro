@@ -1,0 +1,208 @@
+---
+const resume = 'https://docs.google.com/document/d/1_7cT3_l2zqVAB3M8XQtUUjJT54D-XxCx/edit?usp=sharing&ouid=113979856902625540699&rtpof=true&sd=true';
+---
+
+<header class="nav" data-nav>
+  <div class="nav-fade"></div>
+  <div class="nav-bar">
+    <a class="nav-home" href="/#hero">© Henrique Menezzo</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="/#services">Projects</a>
+      <a href="/#about">About</a>
+      <a href="/#footer">Contact</a>
+      <a href={resume} target="_blank" rel="noopener">Resume</a>
+    </nav>
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" data-menu-toggle>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <nav class="menu" aria-label="Mobile">
+    <a href="/#services">Projects</a>
+    <a href="/#about">About</a>
+    <a href="/#footer">Contact</a>
+    <a href={resume} target="_blank" rel="noopener">Resume</a>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 7;
+    width: 100%;
+  }
+
+  .nav-fade {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0) 100%);
+    transition: opacity 0.4s var(--ease);
+  }
+
+  .nav-fade::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+  }
+
+  .nav.light .nav-fade {
+    background: none;
+  }
+
+  .nav.light .nav-fade::after {
+    opacity: 1;
+  }
+
+  .nav-bar {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    color: #fff;
+    transition: color 0.4s var(--ease);
+  }
+
+  .nav.light .nav-bar {
+    color: #000;
+  }
+
+  .nav-home {
+    display: flex;
+    flex: 1 0 0;
+    align-items: center;
+    min-height: 44px;
+    margin-block: -6px;
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    white-space: pre;
+  }
+
+  .nav-links {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 56px;
+    height: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .nav-toggle {
+    position: relative;
+    display: none;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    margin-right: -8px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+  }
+
+  .nav-toggle span {
+    position: absolute;
+    left: 8px;
+    width: 28px;
+    height: 1px;
+    border-radius: 20px;
+    background: currentColor;
+    transition: transform 0.65s var(--spring);
+  }
+
+  .nav-toggle span:first-child {
+    top: 17px;
+  }
+
+  .nav-toggle span:last-child {
+    top: 25px;
+  }
+
+  .menu {
+    position: absolute;
+    top: 91px;
+    left: 0;
+    z-index: 1;
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    height: calc(100vh - 91px);
+    padding: 40px 32px;
+    background: #000;
+    color: #fff;
+    font-size: 42px;
+    line-height: 1;
+    visibility: hidden;
+    transform: translateY(calc(-100% - 91px));
+    transition:
+      transform 0.4s var(--ease),
+      visibility 0s linear 0.4s;
+  }
+
+  .nav.open .menu {
+    visibility: visible;
+    transform: none;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .nav.open .nav-fade {
+    background: #000;
+  }
+
+  .nav.open .nav-bar {
+    color: #fff;
+  }
+
+  .nav.open .nav-toggle span:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  .nav.open .nav-toggle span:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  @media (hover: hover) {
+    .nav-home:hover {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+    }
+  }
+
+  @media (max-width: 1199.98px) {
+    .nav-bar {
+      padding: 24px 32px;
+    }
+
+    .nav-links {
+      display: none;
+    }
+
+    .nav-toggle {
+      display: block;
+    }
+
+    .menu {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .nav-bar {
+      padding: 24px;
+    }
+
+    .menu {
+      padding: 40px 24px;
+    }
+  }
+</style>

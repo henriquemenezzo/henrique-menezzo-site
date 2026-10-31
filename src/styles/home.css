@@ -1,0 +1,574 @@
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 85px;
+  width: 100%;
+  min-height: max(100svh, 640px);
+  padding: 80px 0 32px;
+  background: #000;
+  --photo: 907.8px;
+  --photo-x: 49.493%;
+  --photo-y: 52.417%;
+}
+
+.hero-media {
+  position: absolute;
+  top: 0.571%;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: clip;
+}
+
+.hero-photo {
+  position: absolute;
+  top: var(--photo-y);
+  left: var(--photo-x);
+  width: var(--photo);
+  height: var(--photo);
+  transform: translate(-50%, -50%);
+}
+
+.hero-trail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* A foto some antes de chegar à próxima seção, sem linha de corte. */
+.hero-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 56%, #000 97%);
+  pointer-events: none;
+}
+
+.hero-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 48px;
+}
+
+.hero-lead {
+  flex: none;
+  width: 14.15em;
+  color: #fff;
+  font-size: clamp(16px, 1.39vw, 24px);
+  line-height: 1.5;
+}
+
+.cta {
+  position: relative;
+  z-index: 1;
+  display: block;
+  flex: none;
+  width: 136px;
+  height: 136px;
+  overflow: hidden;
+  border-radius: 200px;
+  background: #fff;
+  color: #000;
+  animation: cta-in 1.45s var(--spring-rise) 2s both;
+}
+
+/* Voltando de um projeto não há loader para esperar. */
+.arrived .cta {
+  animation-delay: 0.45s;
+}
+
+.cta-fill {
+  position: absolute;
+  right: 0;
+  bottom: -150px;
+  left: 0;
+  aspect-ratio: 1;
+  border-radius: 9000px;
+  background: var(--blue);
+  transition: transform 0.65s var(--spring);
+}
+
+.cta-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-family: var(--medium);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: pre;
+  transform: translate(-50%, -50%);
+  transition: color 0.65s var(--spring);
+}
+
+@keyframes cta-in {
+  from {
+    transform: translateY(221px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.marquee {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  width: 100%;
+  overflow: clip visible; /* Recorta só nas laterais: a perna do g passa da altura da linha. */
+  color: #fff;
+  font-size: clamp(56px, 11.11vw, 230px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.marquee ul {
+  display: flex;
+  gap: 0.0625em;
+  width: max-content;
+  animation: marquee 46s linear infinite;
+}
+
+.marquee li {
+  flex: none;
+  white-space: pre;
+}
+
+.marquee h2,
+.marquee span {
+  display: block;
+}
+
+@keyframes marquee {
+  to {
+    transform: translate3d(-23.06em, 0, 0); /* Largura de uma frase mais o espaço; em px sairia do compositor. */
+  }
+}
+
+/* Projetos */
+.work {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 80px 48px 120px;
+  background: #000;
+}
+
+.work-title {
+  width: 100%;
+  padding-bottom: 32px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.project {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 64px 0;
+  background: #000;
+}
+
+.project::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 0.3px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.project-row {
+  display: flex;
+}
+
+.project-name {
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  gap: 0.2em;
+  color: #fff;
+  font-size: clamp(42px, 5.42vw, 112px);
+  line-height: 1;
+  transition:
+    color 0.6s var(--ease),
+    transform 0.6s var(--ease);
+}
+
+.project-name svg {
+  flex: none;
+  width: 0.62em;
+  height: 0.62em;
+  opacity: 0;
+  transform: translate(-0.3em, 0.3em);
+  transition:
+    opacity 0.4s var(--ease),
+    transform 0.6s var(--ease);
+}
+
+.project-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-content: flex-start;
+  gap: 12px;
+}
+
+.project-text p {
+  flex: 0 1 26em;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(14px, 1.11vw, 20px);
+  line-height: 1.5;
+}
+
+/* Sem mouse não há hover: o convite para abrir fica sempre visível. */
+.project-open {
+  display: none;
+  flex: 1 0 100%;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.project-card {
+  display: none;
+}
+
+@media (hover: hover) {
+  .project:hover .project-name,
+  .project:focus-visible .project-name {
+    color: rgba(235, 235, 245, 0.45);
+    transform: translateX(40px);
+  }
+
+  .project:hover .project-name svg,
+  .project:focus-visible .project-name svg {
+    color: #fff;
+    opacity: 1;
+    transform: none;
+  }
+
+  .cta:hover .cta-fill {
+    transform: translateY(-150px);
+  }
+
+  .cta:hover .cta-label {
+    color: #fff;
+  }
+}
+
+/* Sobre */
+.about {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 120px;
+  width: 100%;
+  padding: 120px 48px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.about-copy {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.about-big {
+  flex: 0 1 22.8em;
+  color: #000;
+  font-size: clamp(20px, 2.22vw, 44px);
+  line-height: 1.5;
+}
+
+.about-small {
+  flex: 0 1 15em;
+  color: #474747;
+  font-size: clamp(16px, 1.11vw, 20px);
+  line-height: 1.5;
+}
+
+.tiles {
+  --tile-w: clamp(352px, 30vw, 680px);
+  --tile-h: calc(var(--tile-w) * 0.824);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 2.6vw, 56px);
+  width: 100%;
+}
+
+.tiles-track {
+  position: relative;
+  width: 100%;
+  height: var(--tile-h);
+}
+
+.tiles-row {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  gap: clamp(32px, 2.6vw, 56px);
+  width: max-content;
+  transform: translate(-50%, -50%);
+}
+
+.tile {
+  flex: none;
+  width: var(--tile-w);
+  height: var(--tile-h);
+  overflow: clip;
+}
+
+/* Em telas de computador a foto acompanha a altura da janela. */
+@media (min-width: 1200px) {
+  .hero {
+    --photo: max(960px, 112vh);
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .hero {
+    padding: 80px 32px 32px;
+  }
+
+  .hero-row {
+    padding: 0;
+  }
+
+  .marquee {
+    line-height: 1.2;
+  }
+
+  .work {
+    padding: 80px 32px 120px;
+  }
+
+  .work-title {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .project {
+    padding: 48px 0;
+  }
+
+  .project-row {
+    gap: 48px;
+  }
+
+
+  .about {
+    padding: 200px 32px 120px;
+  }
+
+  .about-copy {
+    justify-content: flex-start;
+    gap: 56px;
+  }
+
+}
+
+@media (max-width: 991px) {
+  .hero {
+    --photo-y: 57.488%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero {
+    gap: 32px;
+    padding: 180px 0 60px;
+  }
+
+  .hero-row {
+    padding: 0 24px;
+  }
+
+  .hero-lead {
+    width: 11.8em;
+    font-size: 14px;
+  }
+
+  .cta {
+    width: 92px;
+    height: 92px;
+  }
+
+  .cta-label {
+    font-size: 12px;
+  }
+
+  .marquee {
+    line-height: 1.3;
+  }
+
+  .work {
+    padding: 32px 24px 90px;
+  }
+
+  .work-title {
+    font-size: 12px;
+  }
+
+  .project {
+    padding: 32px 0;
+  }
+
+  .project-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .project-name {
+    flex: none;
+  }
+
+  .project-text {
+    flex: none;
+    justify-content: flex-start;
+  }
+
+  .project-text p {
+    flex: 1 0 100%;
+  }
+
+  .project-card {
+    position: relative;
+    display: block;
+    aspect-ratio: 342 / 368;
+    margin-top: 24px;
+    overflow: hidden;
+    background: #1c1c1c;
+  }
+
+  .project-card[data-tint] {
+    background: #d4d4d4;
+  }
+
+  /* Em proporção do card: as telas continuam centradas em qualquer largura. */
+  .project-card .panel-shot.erp {
+    top: 25%;
+    left: 4.5%;
+    width: 91%;
+    aspect-ratio: 311 / 181;
+    border-radius: 6px;
+  }
+
+  .project-card .panel-shot.ds {
+    top: 20%;
+    left: 1%;
+    width: 98%;
+    aspect-ratio: 336 / 555;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .project-card .panel-shot.phone-a,
+  .project-card .panel-shot.phone-b {
+    top: 12%;
+    width: 37.7%;
+    aspect-ratio: 129 / 279;
+    border-radius: 8px;
+  }
+
+  .project-card .panel-shot.phone-a {
+    left: 10.8%;
+  }
+
+  .project-card .panel-shot.phone-b {
+    left: 51.5%;
+  }
+
+  .about {
+    gap: 100px;
+    padding: 120px 24px;
+  }
+
+  .about-copy {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .about-big,
+  .about-small {
+    flex: none;
+    width: 100%;
+  }
+
+  .tiles {
+    gap: 32px;
+  }
+
+  .tiles-track {
+    display: flex;
+    justify-content: center;
+  }
+
+  .tiles-row {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex: none;
+    gap: 8px;
+    transform: none;
+  }
+}
+
+@media (max-width: 575px) {
+  .hero {
+    --photo: 685px;
+    --photo-x: 50%;
+    --photo-y: 59.953%;
+  }
+}
+
+@media (hover: none) {
+  .project-open {
+    display: block;
+  }
+}

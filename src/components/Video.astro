@@ -1,0 +1,12 @@
+---
+import media from '../data/media.json';
+
+interface Props {
+  file: string;
+}
+
+const { file } = Astro.props;
+const m = media[file as keyof typeof media] as { name: string; w: number; h: number };
+---
+
+<video data-src={`/video/${m.name}.mp4`} data-poster={`/video/${m.name}.avif`} width={m.w} height={m.h} loop muted playsinline preload="none"></video>

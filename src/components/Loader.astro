@@ -1,0 +1,143 @@
+---
+// Abertura da home, só com CSS. Tempos do Loader do Framer: entra aos 0.4s, sai aos 1.4s.
+---
+
+<div class="loader" aria-hidden="true">
+  <div class="loader-bg"></div>
+  <div class="loader-center">
+    <div class="loader-block">
+      <div class="loader-words">
+        <span class="word"><span>©</span></span>
+        <span class="word"><span>Henrique</span></span>
+        <span class="word w3"><span>Menezzo</span></span>
+      </div>
+      <div class="loader-line"><div></div></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    overflow: hidden;
+    pointer-events: none;
+    animation: loader-gone 0s linear 2.7s forwards;
+  }
+
+  .loader-bg {
+    position: absolute;
+    inset: 0;
+    background: #f2f2f7;
+    transform-origin: top;
+    animation: loader-lift 1s var(--ease-loader) 1.7s forwards;
+  }
+
+  .loader-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .loader-block {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+  }
+
+  .loader-words {
+    display: flex;
+    gap: 8px;
+  }
+
+  .word {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 8px;
+    color: #000;
+    font-size: 26px;
+    line-height: 1.2;
+    white-space: pre;
+  }
+
+  .word span {
+    display: block;
+    transform: translateY(104px);
+    animation:
+      word-in 0.4s var(--ease-loader) 0.4s forwards,
+      word-out 0.8s var(--ease-loader) 1.4s forwards;
+  }
+
+  .word.w3 span {
+    animation:
+      word-in 0.6s var(--ease-loader) 0.4s forwards,
+      word-out 0.6s var(--ease-loader) 1.4s forwards;
+  }
+
+  .loader-line {
+    position: relative;
+    height: 1px;
+    margin-top: 20px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.15);
+    animation: line-out 1s var(--ease-loader) 1.4s forwards;
+  }
+
+  .loader-line div {
+    height: 1px;
+    background: #000;
+    transform: scaleX(0.1);
+    transform-origin: left;
+    animation: bar-fill 1s var(--ease-loader) 0.4s forwards;
+  }
+
+  @keyframes word-in {
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes word-out {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-96px);
+    }
+  }
+
+  @keyframes bar-fill {
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes line-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes loader-lift {
+    to {
+      transform: translateY(-120px) scaleY(0.01);
+    }
+  }
+
+  @keyframes loader-gone {
+    to {
+      visibility: hidden;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loader {
+      display: none;
+    }
+  }
+</style>

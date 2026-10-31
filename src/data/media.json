@@ -1,0 +1,885 @@
+{
+ "xgR1D1cGsEI4msmk5rZ4LuPDk.png": {
+  "kind": "image",
+  "name": "home-01",
+  "w": 800,
+  "h": 800,
+  "widths": [
+   800
+  ],
+  "alpha": true
+ },
+ "Xn1H7J8CY3SfZPCgPNUNa8.jpg": {
+  "kind": "image",
+  "name": "home-04",
+  "w": 720,
+  "h": 1280,
+  "widths": [
+   720
+  ],
+  "alpha": false
+ },
+ "xrNp2bhJoXFh5uETPibzoNMSN1A.jpg": {
+  "kind": "image",
+  "name": "home-09",
+  "w": 417,
+  "h": 626,
+  "widths": [
+   417
+  ],
+  "alpha": false
+ },
+ "GjadJ42iLDgF0ERD7bFkZLX9s.jpg": {
+  "kind": "image",
+  "name": "home-07",
+  "w": 736,
+  "h": 414,
+  "widths": [
+   736
+  ],
+  "alpha": false
+ },
+ "sG4t8m5zobxoPJV0hQQhMtlvVCk.jpg": {
+  "kind": "image",
+  "name": "home-05",
+  "w": 750,
+  "h": 1624,
+  "widths": [
+   750
+  ],
+  "alpha": false
+ },
+ "24twWUimYKE2YztNj0onN93DRhE.jpg": {
+  "kind": "image",
+  "name": "home-06",
+  "w": 750,
+  "h": 1624,
+  "widths": [
+   750
+  ],
+  "alpha": false
+ },
+ "8UDtWn2NcXs3R1ZR2R5ynfnG6tA.png": {
+  "kind": "image",
+  "name": "tex-01",
+  "w": 411,
+  "h": 391,
+  "widths": [
+   411
+  ],
+  "alpha": true
+ },
+ "1uHS6m55DDU1KDAPenSt4ZsZWw.jpeg": {
+  "kind": "image",
+  "name": "tex-04",
+  "w": 559,
+  "h": 1211,
+  "widths": [
+   559
+  ],
+  "alpha": false
+ },
+ "ThzoYZ4QL9FLuouI10oFObNj7T8.png": {
+  "kind": "image",
+  "name": "tex-07",
+  "w": 320,
+  "h": 320,
+  "widths": [
+   320
+  ],
+  "alpha": true
+ },
+ "2NYb6Yj7AbPDml8NMnxhna9ij0s.png": {
+  "kind": "image",
+  "name": "tex-08",
+  "w": 322,
+  "h": 322,
+  "widths": [
+   322
+  ],
+  "alpha": true
+ },
+ "rQ9e12PByQO6Sl2yFMulk6RDfaA.jpeg": {
+  "kind": "image",
+  "name": "tex-05",
+  "w": 523,
+  "h": 1132,
+  "widths": [
+   523
+  ],
+  "alpha": false
+ },
+ "rFj7xroKjszNU1CU0R5jyJQAahI.png": {
+  "kind": "image",
+  "name": "tex-09",
+  "w": 320,
+  "h": 325,
+  "widths": [
+   320
+  ],
+  "alpha": true
+ },
+ "6mUXcwP5N0CLIJWjDxA9HN3Tdwk.jpeg": {
+  "kind": "image",
+  "name": "tex-06",
+  "w": 522,
+  "h": 1131,
+  "widths": [
+   522
+  ],
+  "alpha": false
+ },
+ "pjtn3VymuOw8BnRQV5aPawQ2dmQ.png": {
+  "kind": "image",
+  "name": "tex-11",
+  "w": 659,
+  "h": 1339,
+  "widths": [
+   659
+  ],
+  "alpha": true
+ },
+ "xCXm8QAYoK7cW5QKkGHEChdxDY.png": {
+  "kind": "image",
+  "name": "tex-10",
+  "w": 659,
+  "h": 1427,
+  "widths": [
+   659
+  ],
+  "alpha": false
+ },
+ "FVO4UzBPz5CtAKsUUMiMCJS7bqc.png": {
+  "kind": "image",
+  "name": "tex-15",
+  "w": 375,
+  "h": 812,
+  "widths": [
+   375
+  ],
+  "alpha": false
+ },
+ "AmI088UmSreLrL1pI04xEkgGlM.png": {
+  "kind": "image",
+  "name": "tex-17",
+  "w": 375,
+  "h": 812,
+  "widths": [
+   375
+  ],
+  "alpha": false
+ },
+ "nu5En44vdhRaxuRgyKSfRQS4n8.png": {
+  "kind": "image",
+  "name": "tex-16",
+  "w": 659,
+  "h": 1339,
+  "widths": [
+   659
+  ],
+  "alpha": true
+ },
+ "CrzxYOTkkfce5rxYDIE8Qh7dQ.png": {
+  "kind": "image",
+  "name": "tex-13",
+  "w": 659,
+  "h": 1339,
+  "widths": [
+   659
+  ],
+  "alpha": true
+ },
+ "HGCtrL8g1hKrJ3gsaWVDfk93aM.png": {
+  "kind": "image",
+  "name": "tex-20",
+  "w": 375,
+  "h": 812,
+  "widths": [
+   375
+  ],
+  "alpha": false
+ },
+ "0QnXBqpOjbYTUuxFemEKhyiv0n4.png": {
+  "kind": "image",
+  "name": "tex-21",
+  "w": 375,
+  "h": 812,
+  "widths": [
+   375
+  ],
+  "alpha": false
+ },
+ "zOQmdYxgLmYhdEUNFtTUyslpJaQ.png": {
+  "kind": "image",
+  "name": "tex-19",
+  "w": 375,
+  "h": 812,
+  "widths": [
+   375
+  ],
+  "alpha": false
+ },
+ "XDzKGlVkrufh2LoWzUhVTYMRk0.png": {
+  "kind": "image",
+  "name": "tex-18",
+  "w": 659,
+  "h": 1339,
+  "widths": [
+   659
+  ],
+  "alpha": true
+ },
+ "cYTItCnQPJ5b5Vy0Oj8uPyevVnk.png": {
+  "kind": "image",
+  "name": "babel-04",
+  "w": 552,
+  "h": 526,
+  "widths": [
+   552
+  ],
+  "alpha": true
+ },
+ "aGGXRdKx8shTl5ZHcq3MCNMqI.png": {
+  "kind": "image",
+  "name": "tex-14",
+  "w": 750,
+  "h": 1524,
+  "widths": [
+   750
+  ],
+  "alpha": true
+ },
+ "kp3GKhddW0mnQaXdMQwyrH6YzQ.png": {
+  "kind": "image",
+  "name": "babel-03",
+  "w": 984,
+  "h": 468,
+  "widths": [
+   984
+  ],
+  "alpha": true
+ },
+ "GieLKPSn2Y1bDHcwtmItUY0qMw.png": {
+  "kind": "image",
+  "name": "tex-12",
+  "w": 750,
+  "h": 1624,
+  "widths": [
+   750
+  ],
+  "alpha": false
+ },
+ "ohINOW8e9JwjiB0iuzQAif2KDY.jpg": {
+  "kind": "image",
+  "name": "dare-05",
+  "w": 484,
+  "h": 1048,
+  "widths": [
+   484
+  ],
+  "alpha": false
+ },
+ "s2g4Hgyq0LkSsm2vOgyZdQk2wlo.jpg": {
+  "kind": "image",
+  "name": "dare-06",
+  "w": 484,
+  "h": 1048,
+  "widths": [
+   484
+  ],
+  "alpha": false
+ },
+ "MMijcUaWo4qInzFSoBrfr5xo.jpg": {
+  "kind": "image",
+  "name": "dare-07",
+  "w": 396,
+  "h": 858,
+  "widths": [
+   396
+  ],
+  "alpha": false
+ },
+ "0JH8Drzp7VrIrD6UJuFKMeCnM.png": {
+  "kind": "image",
+  "name": "dare-08",
+  "w": 604,
+  "h": 1084,
+  "widths": [
+   604
+  ],
+  "alpha": false
+ },
+ "5iwaEA1kXbXUkiH8396hwqXAA.png": {
+  "kind": "image",
+  "name": "card-03",
+  "w": 750,
+  "h": 1624,
+  "widths": [
+   750
+  ],
+  "alpha": false
+ },
+ "NUPHhlGFcsfjB0bwkNf9eUoFSc4.png": {
+  "kind": "image",
+  "name": "card-04",
+  "w": 750,
+  "h": 1624,
+  "widths": [
+   750
+  ],
+  "alpha": false
+ },
+ "zpKZn3woPouai0oDWq9odr2fZ8.png": {
+  "kind": "image",
+  "name": "card-02",
+  "w": 750,
+  "h": 1626,
+  "widths": [
+   750
+  ],
+  "alpha": true
+ },
+ "B85jmqLRHxvRB6z0TIfmSRPI.png": {
+  "kind": "image",
+  "name": "card-01",
+  "w": 750,
+  "h": 1626,
+  "widths": [
+   750
+  ],
+  "alpha": true
+ },
+ "OFcQaeCSoi3v36y4wDQ9dpbB71Q.png": {
+  "kind": "image",
+  "name": "home-03",
+  "w": 1400,
+  "h": 787,
+  "widths": [
+   700,
+   1400
+  ],
+  "alpha": true
+ },
+ "yEiMYxnVEIxRW8yTxwhhFlgigks.png": {
+  "kind": "image",
+  "name": "home-02",
+  "w": 1080,
+  "h": 1080,
+  "widths": [
+   540,
+   1080
+  ],
+  "alpha": false
+ },
+ "24kspesVLMwAdPjBg6XpjJuEy0c.jpg": {
+  "kind": "image",
+  "name": "home-08",
+  "w": 1189,
+  "h": 693,
+  "widths": [
+   595,
+   1189
+  ],
+  "alpha": false
+ },
+ "bv8cpzBcDLpQqEyeTwp33WB0qs4.png": {
+  "kind": "image",
+  "name": "home-10",
+  "w": 1024,
+  "h": 1691,
+  "widths": [
+   512,
+   1024
+  ],
+  "alpha": false
+ },
+ "4o9Q4Lzldnre1gYl15Ux8FXRpJg.png": {
+  "kind": "image",
+  "name": "home-14",
+  "w": 1026,
+  "h": 1115,
+  "widths": [
+   513,
+   1026
+  ],
+  "alpha": false
+ },
+ "Ur9rjMlk9WIjN7D6j3czUmuc8fY.png": {
+  "kind": "image",
+  "name": "home-11",
+  "w": 1396,
+  "h": 1104,
+  "widths": [
+   698,
+   1396
+  ],
+  "alpha": false
+ },
+ "3FFsHkO3VUqcm20jVXTubB8Xqpg.jpg": {
+  "kind": "image",
+  "name": "home-15",
+  "w": 1167,
+  "h": 962,
+  "widths": [
+   584,
+   1167
+  ],
+  "alpha": false
+ },
+ "utZnb24AUIDbZrJNzIV5ypdmh6A.png": {
+  "kind": "image",
+  "name": "home-13",
+  "w": 1610,
+  "h": 1104,
+  "widths": [
+   805,
+   1610
+  ],
+  "alpha": false
+ },
+ "oC1aOtjWjzKkgu9x6HSJyquNv4s.png": {
+  "kind": "image",
+  "name": "tex-03",
+  "w": 1057,
+  "h": 2167,
+  "widths": [
+   529,
+   1057
+  ],
+  "alpha": true
+ },
+ "EPwTYf8YjCgoMmiwglDrCC5QT8.png": {
+  "kind": "image",
+  "name": "babel-05",
+  "w": 2067,
+  "h": 1550,
+  "widths": [
+   1034,
+   2067
+  ],
+  "alpha": true
+ },
+ "tWDpvSh7daipPtPqhun4cAY5HY.png": {
+  "kind": "image",
+  "name": "tex-02",
+  "w": 1059,
+  "h": 2167,
+  "widths": [
+   530,
+   1059
+  ],
+  "alpha": true
+ },
+ "A7CUN9e3nmr0m5pYP2wFDHQEwo.png": {
+  "kind": "image",
+  "name": "babel-08",
+  "w": 2214,
+  "h": 1186,
+  "widths": [
+   1107,
+   2214
+  ],
+  "alpha": true
+ },
+ "p3x6UJYyVRwlBgX9YEFh5IN8f8.png": {
+  "kind": "image",
+  "name": "dare-01",
+  "w": 1536,
+  "h": 1024,
+  "widths": [
+   768,
+   1536
+  ],
+  "alpha": false
+ },
+ "YK1upjhzGtOqiDJlj3ewF2ao6aE.jpg": {
+  "kind": "image",
+  "name": "babel-02",
+  "w": 2881,
+  "h": 1679,
+  "widths": [
+   1441,
+   2881
+  ],
+  "alpha": false
+ },
+ "Tu9042NPghGirFNtvV7mp880cfw.png": {
+  "kind": "image",
+  "name": "dare-03",
+  "w": 1400,
+  "h": 933,
+  "widths": [
+   700,
+   1400
+  ],
+  "alpha": false
+ },
+ "g6Ur4mKbHEFFGFgBz3430I8QIvE.png": {
+  "kind": "image",
+  "name": "dare-02",
+  "w": 1536,
+  "h": 1024,
+  "widths": [
+   768,
+   1536
+  ],
+  "alpha": false
+ },
+ "NiNKMLdpMha99NMojfa0oE6QZas.jpg": {
+  "kind": "image",
+  "name": "babel-06",
+  "w": 2741,
+  "h": 1592,
+  "widths": [
+   1371,
+   2741
+  ],
+  "alpha": false
+ },
+ "L5jMhDtNmPRmSMrVUb2MizuNoJM.jpg": {
+  "kind": "image",
+  "name": "babel-07",
+  "w": 2881,
+  "h": 1679,
+  "widths": [
+   1441,
+   2881
+  ],
+  "alpha": false
+ },
+ "isRrPbPtNt3UQQNkS5AOd2gPIk.png": {
+  "kind": "image",
+  "name": "goldcare-03",
+  "w": 1932,
+  "h": 1067,
+  "widths": [
+   966,
+   1932
+  ],
+  "alpha": false
+ },
+ "C0lIvYqqHlRTepAQNZJfTKc8kzQ.png": {
+  "kind": "image",
+  "name": "goldcare-04",
+  "w": 1932,
+  "h": 1067,
+  "widths": [
+   966,
+   1932
+  ],
+  "alpha": false
+ },
+ "1WXtp7HxVmPI1N8MndRXzzu0Xmo.png": {
+  "kind": "image",
+  "name": "goldcare-02",
+  "w": 2999,
+  "h": 1656,
+  "widths": [
+   1500,
+   2999
+  ],
+  "alpha": false
+ },
+ "cQ0X5aKuFw6ucj2bYyXowy5dM.png": {
+  "kind": "image",
+  "name": "home-12",
+  "w": 4868,
+  "h": 3596,
+  "widths": [
+   2434,
+   4868
+  ],
+  "alpha": false
+ },
+ "HEXUI3jqsaNSIUQu3h3ORKanIIw.png": {
+  "kind": "image",
+  "name": "babel-09",
+  "w": 2695,
+  "h": 1595,
+  "widths": [
+   1348,
+   2695
+  ],
+  "alpha": true
+ },
+ "q9xYVMGq81rX5Ds7ErA2jJPto1E.jpg": {
+  "kind": "image",
+  "name": "playground-01",
+  "w": 1167,
+  "h": 962,
+  "widths": [
+   584,
+   1167
+  ],
+  "alpha": false
+ },
+ "g9MKOhDhNHP5FzYazjNhr4RtC0.png": {
+  "kind": "image",
+  "name": "goldcare-06",
+  "w": 1475,
+  "h": 1104,
+  "widths": [
+   738,
+   1475
+  ],
+  "alpha": false
+ },
+ "TNJhLUIPl4HQ4egdJSxS5t9Iv8g.png": {
+  "kind": "image",
+  "name": "dare-04",
+  "w": 1536,
+  "h": 1024,
+  "widths": [
+   768,
+   1536
+  ],
+  "alpha": false
+ },
+ "5ILRvlYXf72kHSVHqpa3snGzjU.jpg": {
+  "kind": "image",
+  "name": "card-05",
+  "w": 1280,
+  "h": 720,
+  "widths": [
+   640,
+   1280
+  ],
+  "alpha": false
+ },
+ "LzOMW7T6sXf0nT7NdzMn6LUdws.jpg": {
+  "kind": "image",
+  "name": "playground-02",
+  "w": 1339,
+  "h": 1104,
+  "widths": [
+   670,
+   1339
+  ],
+  "alpha": false
+ },
+ "f3DTNZugpuDKrqBz7TFnfHeUQ.jpg": {
+  "kind": "image",
+  "name": "babel-01",
+  "w": 3889,
+  "h": 3207,
+  "widths": [
+   1945,
+   3889
+  ],
+  "alpha": false
+ },
+ "BWhU24qJeThiZC8e8SysYaj7eVw.png": {
+  "kind": "image",
+  "name": "goldcare-01",
+  "w": 2999,
+  "h": 1656,
+  "widths": [
+   1500,
+   2999
+  ],
+  "alpha": false
+ },
+ "mzcXANQTIigZH8BeqjMbTVXCoA.png": {
+  "kind": "image",
+  "name": "goldcare-05",
+  "w": 2999,
+  "h": 1937,
+  "widths": [
+   1500,
+   2999
+  ],
+  "alpha": false
+ },
+ "qhpYEbMrAxcmr3qXOgQfb6QJDY.mp4": {
+  "kind": "video",
+  "name": "tile-01",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "Qq2kUKiK9HOk5t8Yq7cIuks8Up8.mp4": {
+  "kind": "video",
+  "name": "tile-02",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "CRljZUYc9UtDZqlZOgsErBUCGVg.mp4": {
+  "kind": "video",
+  "name": "tile-03",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "qYPzqzyufmV4PvHOu7nQWEoCGk.mp4": {
+  "kind": "video",
+  "name": "tile-04",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "6yeyRX6hHFE56EDXDCEgZMlYtTg.mp4": {
+  "kind": "video",
+  "name": "tile-05",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "GX32Pu9YkksLc0GTpCFeWyNMI.mp4": {
+  "kind": "video",
+  "name": "tile-06",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "wE6CB6b4wdfN073dND1XgGAGQ78.mp4": {
+  "kind": "video",
+  "name": "tile-07",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "YN0Jgn6CbvoPc5MjVcLkO8PmdYg.mp4": {
+  "kind": "video",
+  "name": "tile-08",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "iB4ibeWH3JW1mRyKV4s0bHe4M.mp4": {
+  "kind": "video",
+  "name": "tile-09",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "NRL6I595AtaVb1qQkCeFwJ99Io.mp4": {
+  "kind": "video",
+  "name": "tile-10",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "hYtfCr82VCyzeywXrZL1j5aq4I.mp4": {
+  "kind": "video",
+  "name": "tile-11",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "zEpdMK8T7Xo1U4SXMIZv7OblA.mp4": {
+  "kind": "video",
+  "name": "tile-12",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "oxi2NXHdiQonhslIpc4oK3CI8M.mp4": {
+  "kind": "video",
+  "name": "tile-13",
+  "w": 1100,
+  "h": 906,
+  "fps": 60,
+  "crf": 23
+ },
+ "8OBAuCJpAs91NtG6ksFjB9HQ.mp4": {
+  "kind": "video",
+  "name": "tex-22",
+  "w": 864,
+  "h": 1874,
+  "fps": 60,
+  "crf": 23
+ },
+ "9vO1lCVt3WreWi0qoNbUQdYhY.mp4": {
+  "kind": "video",
+  "name": "babel-10",
+  "w": 1794,
+  "h": 1042,
+  "fps": 60,
+  "crf": 23
+ },
+ "qKeo1wtJCe3LIULwYSfrIezFzNY.mp4": {
+  "kind": "video",
+  "name": "dare-09",
+  "w": 864,
+  "h": 1900,
+  "fps": 60,
+  "crf": 23
+ },
+ "7E5vuaNO3CDphOFXDBjM8tMIg5Q.gif": {
+  "kind": "video",
+  "name": "dare-10",
+  "w": 342,
+  "h": 754,
+  "fps": 25,
+  "crf": 22
+ },
+ "QNSUqShYRXXQEHJvvxF54OKsIMM.mp4": {
+  "kind": "video",
+  "name": "dare-11",
+  "w": 864,
+  "h": 1900,
+  "fps": 60,
+  "crf": 23
+ },
+ "6tBKGGsZuq35GQKAilsHDSheyo.gif": {
+  "kind": "video",
+  "name": "dare-12",
+  "w": 342,
+  "h": 754,
+  "fps": 25,
+  "crf": 22
+ },
+ "VJo3qBYtoCLRg6lrlMlbbNOsSG0.gif": {
+  "kind": "video",
+  "name": "dare-13",
+  "w": 342,
+  "h": 754,
+  "fps": 25,
+  "crf": 22
+ },
+ "PybQlr8S5rsQl3lRevO7MOCrk.mp4": {
+  "kind": "video",
+  "name": "goldcare-07",
+  "w": 1708,
+  "h": 1080,
+  "fps": 60,
+  "crf": 23
+ },
+ "hSj5yrIgfbydvnjVIwLzpdYKbBI.mp4": {
+  "kind": "video",
+  "name": "goldcare-08",
+  "w": 1794,
+  "h": 1080,
+  "fps": 60,
+  "crf": 23
+ },
+ "j6643qsRIdIHeWnb7J3ZeeIlpfE.mp4": {
+  "kind": "video",
+  "name": "goldcare-09",
+  "w": 1794,
+  "h": 1080,
+  "fps": 60,
+  "crf": 23
+ },
+ "MLWPbW1dUQawJLhhun3dBwpgJak.mp4": {
+  "kind": "video",
+  "name": "card-06",
+  "w": 1280,
+  "h": 720,
+  "fps": 60,
+  "crf": 23
+ }
+}
