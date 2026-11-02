@@ -57,9 +57,9 @@ vec4 read(vec2 uv) {
 
 void main() {
   vec2 shift = texture(uFlow, vUv).xy / uSize;
-  vec4 r = read(vUv - shift * 1.07);
+  vec4 r = read(vUv - shift * 1.025);
   vec4 g = read(vUv - shift);
-  vec4 b = read(vUv - shift * 0.93);
+  vec4 b = read(vUv - shift * 0.975);
   color = vec4(r.r, g.g, b.b, max(r.a, max(g.a, b.a)));
 }`;
 
@@ -295,7 +295,8 @@ function createLens() {
   let opacity = '';
   let energy = 0;
   const velocity = { x: 0, y: 0 };
-  const last = { x: 0, y: 0 };
+  const lastPoint = { x: 0, y: 0 };
+  let seeded = false;
 
   const upload = (rect: DOMRect) => {
     gl.activeTexture(gl.TEXTURE0);
@@ -342,13 +343,12 @@ function createLens() {
     },
     open(next: HTMLElement, x: number, y: number) {
       const rect = next.getBoundingClientRect();
-      const onCard = !!next.closest('.card');
       box = next;
       inPlace = rect.width >= innerWidth * 0.96;
       margin = inPlace ? 0 : MARGIN;
       dpr = Math.min(devicePixelRatio, 2);
       // Dentro do layout escalado dos cases, px de CSS valem zoom vezes mais na tela.
-      scale = onCard ? 1 : parseFloat(document.documentElement.style.getPropertyValue('--zoom')) || 1;
+      scale = parseFloat(document.documentElement.style.getPropertyValue('--zoom')) || 1;
       const width = Math.round((rect.width + margin * 2) * dpr);
       const height = Math.round((rect.height + margin * 2) * dpr);
       if (canvas.width !== width || canvas.height !== height) {
@@ -359,8 +359,7 @@ function createLens() {
       canvas.style.height = `${canvas.height / dpr / scale}px`;
       canvas.style.transform = 'none';
       // Fica ao lado do container, na mesma camada: recorte, ordem e rolagem vêm de graça do layout.
-      if (onCard) next.parentElement!.append(canvas);
-      else next.after(canvas);
+      next.after(canvas);
       anchor = next.parentElement!;
       while (getComputedStyle(anchor).display === 'contents') anchor = anchor.parentElement!;
       const origin = canvas.getBoundingClientRect();
@@ -371,8 +370,7 @@ function createLens() {
       upload(rect);
       clearFlow(Math.max(8, Math.round((FLOW_WIDTH * height) / width)));
       place = '';
-      last.x = x;
-      last.y = y;
+      seeded = false;
       velocity.x = velocity.y = 0;
       energy = 2; // Vida mínima: mouse devagar não abre e fecha a cada frame.
       shown = false;
@@ -407,24 +405,31 @@ function createLens() {
       const next = `translate3d(${(left - parent.left - base.x) / scale}px, ${(top - parent.top - base.y) / scale}px, 0)`;
       if (next !== place) canvas.style.transform = place = next;
 
+      const pointX = x - left;
+      const pointY = y - top;
+      if (!seeded) {
+        lastPoint.x = pointX;
+        lastPoint.y = pointY;
+        seeded = true;
+      }
+
       gl.useProgram(flow);
       gl.bindFramebuffer(gl.FRAMEBUFFER, flowBuffers[1 - flowIndex]);
       gl.viewport(0, 0, FLOW_WIDTH, flowHeight);
       gl.activeTexture(gl.TEXTURE1);
       gl.bindTexture(gl.TEXTURE_2D, flowTextures[flowIndex]);
       gl.uniform1i(f.flow, 1);
-      gl.uniform2f(f.from, (last.x - left) / width, 1 - (last.y - top) / height);
-      gl.uniform2f(f.to, (x - left) / width, 1 - (y - top) / height);
+      gl.uniform2f(f.from, lastPoint.x / width, 1 - lastPoint.y / height);
+      gl.uniform2f(f.to, pointX / width, 1 - pointY / height);
       gl.uniform2f(f.velocity, velocity.x, -velocity.y);
       gl.uniform1f(f.aspect, width / height);
-      // O card anda com o mouse, que fica sempre no meio dele: precisa de alcance até a borda.
-      gl.uniform1f(f.radius, Math.min(Math.min(rect.width, rect.height) * (scale === 1 && box!.matches('.card-box') ? 0.85 : 0.5), 420) / height);
+      gl.uniform1f(f.radius, Math.min(Math.min(rect.width, rect.height) * 0.5, 280) / height);
       gl.uniform1f(f.strength, over ? 0.55 : 0);
       gl.uniform1f(f.fade, fade);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       flowIndex = 1 - flowIndex;
-      last.x = x;
-      last.y = y;
+      lastPoint.x = pointX;
+      lastPoint.y = pointY;
 
       gl.useProgram(display);
       gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -450,9 +455,6 @@ function createLens() {
 }
 
 export function initMediaLiquid() {
-  const card = document.querySelector<HTMLElement>('.card');
-  const cardBox = document.querySelector<HTMLElement>('.card-box');
-  const stack = document.querySelector<HTMLElement>('.card-stack');
   const pool: Lens[] = [];
   const active: Lens[] = [];
   const pointer = { x: 0, y: 0 };
@@ -463,7 +465,6 @@ export function initMediaLiquid() {
   const scrolled = { x: scrollX, y: scrollY };
   let pointed = false;
   let over: HTMLElement | null = null;
-  let stackAt = '';
   let frames = 0;
 
   const release = (lens: Lens) => {
@@ -473,16 +474,14 @@ export function initMediaLiquid() {
   };
 
   const boxAt = (x: number, y: number) => {
-    if (card?.classList.contains('show')) {
-      const panel = [...card.querySelectorAll<HTMLElement>('.panel')].find((item) => Math.abs(item.getBoundingClientRect().top - card.getBoundingClientRect().top) < 2);
-      return !panel || [...panel.querySelectorAll('img')].map(ready).every(Boolean) ? cardBox : null;
-    }
     for (const el of document.elementsFromPoint(x, y)) {
       if (el.closest('[data-photo], .card, [data-nav]')) continue;
       const media = (el.matches('img, video') ? el : el.querySelector('img, video')) as Media | null;
       if (!media) continue;
       const box = containerOf(media);
       if (!box.contains(el)) continue;
+      // Vídeo fica sem distorção: só imagem parada entorta.
+      if (box.matches('video') || box.querySelector('video')) return null;
       if (box.getBoundingClientRect().width < 120) return null;
       const all = (box.matches('img, video') ? [box] : [...box.querySelectorAll('img, video')]) as Media[];
       return all.map(ready).every(Boolean) ? box : null;
@@ -508,18 +507,7 @@ export function initMediaLiquid() {
     // O ponto sob o mouse só muda quando ele anda; rolando, basta conferir de vez em quando.
     const speed = Math.hypot(moved.x, moved.y);
     if (speed || !(++frames % 8)) over = boxAt(pointer.x, pointer.y);
-    const cardOn = !!over && over === cardBox;
-
-    // Trocar de projeto desliza os painéis: nesse meio tempo o card é o DOM de verdade.
-    const stackNow = stack?.style.transform ?? '';
-    const sliding = stackNow !== stackAt;
-    stackAt = stackNow;
-    if (sliding) {
-      const lens = active.find((item) => item.box === cardBox);
-      if (lens) release(lens);
-    }
-
-    if (over && !(cardOn && sliding) && speed && !active.some((lens) => lens.box === over)) {
+    if (over && speed && !active.some((lens) => lens.box === over)) {
       const lens = take();
       if (lens) {
         lens.open(over, pointer.x - moved.x, pointer.y - moved.y);
@@ -580,7 +568,7 @@ export function initMediaLiquid() {
   document.addEventListener('mouseleave', () => (pointed = false));
   // O WebGL demora para nascer: as lentes ficam prontas, uma por vez, antes de serem precisas.
   const later = (run: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(run, { timeout: 300 }) : setTimeout(run, 100));
-  // As imagens são decodificadas antes de chegarem perto do mouse, e as do card nem esperam o hover.
+  // As imagens são decodificadas antes de chegarem perto do mouse.
   const nearby = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -592,10 +580,7 @@ export function initMediaLiquid() {
     { rootMargin: '50%' },
   );
   document.querySelectorAll<HTMLImageElement>('img').forEach((image) => {
-    if (image.closest('[data-photo]')) return;
-    if (!image.closest('.card')) return nearby.observe(image);
-    image.loading = 'eager';
-    decode(image);
+    if (!image.closest('[data-photo], .card')) nearby.observe(image);
   });
 
   const prepare = () => {

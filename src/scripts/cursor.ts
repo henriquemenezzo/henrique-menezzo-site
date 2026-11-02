@@ -1,6 +1,6 @@
 // Cursor próprio e card de preview. O loop só roda enquanto o card está se movendo.
-const SPRING = { stiffness: 1000, damping: 100, mass: 3.3 };
-const STACK = { stiffness: 500, damping: 60, mass: 2.8 };
+const SPRING = { stiffness: 1100, damping: 80, mass: 1.5 }; // Segue o mouse em ~0,15 s.
+const STACK = { stiffness: 1200, damping: 62, mass: 1 }; // Troca de projeto em ~0,2 s.
 const EDGE = 16;
 
 type Axis = { x: number; v: number };
@@ -20,6 +20,12 @@ export function initCursor() {
 
   document.documentElement.classList.add('custom-cursor');
 
+  // As imagens do card baixam já: no primeiro hover elas estão prontas, sem o fundo vazio piscando.
+  card.querySelectorAll('img').forEach((image) => {
+    image.loading = 'eager';
+    image.decode().catch(() => {});
+  });
+
   const pointer = { x: 0, y: 0 };
   const px: Axis = { x: 0, v: 0 };
   const py: Axis = { x: 0, v: 0 };
@@ -33,8 +39,12 @@ export function initCursor() {
   const targetX = () => Math.max(card.offsetWidth / 2 + EDGE, Math.min(innerWidth - card.offsetWidth / 2 - EDGE, pointer.x));
   const targetY = () => Math.max(card.offsetHeight / 2 + EDGE, Math.min(innerHeight - card.offsetHeight / 2 - EDGE, pointer.y));
 
+  // O card entorta com a própria inércia: inclina e estica para o lado de onde veio, e volta
+  // sozinho quando para. Sai da velocidade da mola, então nunca é um corte seco.
+  const lean = (v: number, k: number, max: number) => Math.max(-max, Math.min(max, v * k));
   const paint = () => {
     card.style.transform = `translate3d(${px.x}px, ${py.x}px, 0)`;
+    box.style.transform = `rotate(${lean(px.v, 0.003, 4)}deg) skew(${lean(-px.v, 0.004, 7)}deg, ${lean(py.v, 0.002, 4)}deg)`;
     stack.style.transform = `translate3d(0, ${sy.x}px, 0)`;
   };
 
@@ -98,7 +108,7 @@ export function initCursor() {
         const index = cardIndex(hit);
         prefetch(hit);
         if (card.hidden) card.hidden = false;
-        stackTarget = -index * panels[0].getBoundingClientRect().height;
+        stackTarget = -index * panels[0].offsetHeight; // Altura de layout: inclinado, o retângulo da tela fica maior.
         box.style.backgroundColor = panels[index].dataset.tint ?? '';
         if (!active) {
           px.x = targetX();
