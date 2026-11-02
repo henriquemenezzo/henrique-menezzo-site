@@ -39,12 +39,8 @@ export function initCursor() {
   const targetX = () => Math.max(card.offsetWidth / 2 + EDGE, Math.min(innerWidth - card.offsetWidth / 2 - EDGE, pointer.x));
   const targetY = () => Math.max(card.offsetHeight / 2 + EDGE, Math.min(innerHeight - card.offsetHeight / 2 - EDGE, pointer.y));
 
-  // O card entorta com a própria inércia: inclina e estica para o lado de onde veio, e volta
-  // sozinho quando para. Sai da velocidade da mola, então nunca é um corte seco.
-  const lean = (v: number, k: number, max: number) => Math.max(-max, Math.min(max, v * k));
   const paint = () => {
     card.style.transform = `translate3d(${px.x}px, ${py.x}px, 0)`;
-    box.style.transform = `rotate(${lean(px.v, 0.003, 4)}deg) skew(${lean(-px.v, 0.004, 7)}deg, ${lean(py.v, 0.002, 4)}deg)`;
     stack.style.transform = `translate3d(0, ${sy.x}px, 0)`;
   };
 
@@ -108,7 +104,7 @@ export function initCursor() {
         const index = cardIndex(hit);
         prefetch(hit);
         if (card.hidden) card.hidden = false;
-        stackTarget = -index * panels[0].offsetHeight; // Altura de layout: inclinado, o retângulo da tela fica maior.
+        stackTarget = -index * panels[0].offsetHeight;
         box.style.backgroundColor = panels[index].dataset.tint ?? '';
         if (!active) {
           px.x = targetX();
