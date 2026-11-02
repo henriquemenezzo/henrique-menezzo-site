@@ -1,6 +1,6 @@
 // Cursor próprio e card de preview. O loop só roda enquanto o card está se movendo.
-const SPRING = { stiffness: 1100, damping: 80, mass: 1.5 }; // Segue o mouse em ~0,15 s.
-const STACK = { stiffness: 1200, damping: 62, mass: 1 }; // Troca de projeto em ~0,2 s.
+const SPRING = { stiffness: 700, damping: 62, mass: 1.3 }; // Segue o mouse em ~0,3 s, sem tranco.
+const STACK = { stiffness: 600, damping: 50, mass: 1.1 }; // Troca de projeto em ~0,3 s, sem tranco.
 const EDGE = 16;
 
 type Axis = { x: number; v: number };

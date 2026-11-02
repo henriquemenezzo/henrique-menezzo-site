@@ -529,14 +529,6 @@ html.custom-cursor * {
   transform: none;
 }
 
-/* Distorção de imagens e vídeos: posição e tamanho vêm do container, no script. */
-.liquid {
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-}
-
 
 /* "Next project": recuo e cor do título no hover, nas versões escura e clara. */
 a .f-f5lzqk {

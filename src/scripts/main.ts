@@ -14,7 +14,7 @@ if (finePointer) {
 // Só no desktop: no celular a rolagem nativa é mais leve e mais fluida.
 if (finePointer && !reduced) {
   import('lenis').then(({ default: Lenis }) => {
-    const lenis = new Lenis({ duration: 1.2, autoRaf: false }); // O Framer usa 2: ele achou o site lento.
+    const lenis = new Lenis({ lerp: 0.085, autoRaf: false }); // Segue a roda amortecido: suave sem ficar arrastado.
 
     // O loop só existe durante a rolagem: parado, a página não produz frame nenhum.
     // O relógio é limitado para o primeiro frame após o repouso não pular a animação.
@@ -77,10 +77,6 @@ if (nav) {
   }
 }
 
-// A distorção de imagens e vídeos fica pronta antes do primeiro hover. Sem mouse, nem carrega.
-if (finePointer && !reduced) {
-  import('./media-liquid').then(({ initMediaLiquid }) => initMediaLiquid());
-}
 
 // O WebGL do hero só existe depois do primeiro movimento do ponteiro.
 const canvas = document.querySelector<HTMLCanvasElement>('[data-trail]');

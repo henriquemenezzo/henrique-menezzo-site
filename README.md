@@ -41,7 +41,6 @@ O footer é um componente só. Goldcare e Playground passam `motion` e `fixedHei
 | Linhas de vídeo do About | `data-range` e `data-values` |
 | Faixa horizontal do Tex | `data-x="inicio,fim"`, ligada ao progresso da página |
 | Rastro do hero | `src/scripts/hero-trail.ts`, carregado só no primeiro movimento do mouse |
-| Distorção de imagens e vídeos | `src/scripts/media-liquid.ts`: o mouse deixa um rastro numa textura pequena, que entorta o container inteiro e se dissolve sozinho. Parado, a mídia original aparece e nenhum frame é desenhado |
 | Abrir e fechar projeto | Cortina toda em CSS (`global.css`): sobe com o nome do projeto, na lista da home e em "Next project", e no X desce até a home sem repetir o loader. `src/scripts/open-project.js` só põe as classes e segura a página nova até o hero estar pronto |
 | Cursor e card de preview | `src/scripts/cursor.ts`, só em dispositivos com mouse |
 | Smooth scroll | Lenis, com `duration: 2` como no Framer, só em dispositivos com mouse. O loop roda apenas durante a rolagem |
@@ -53,7 +52,7 @@ Um atributo com sufixo vale só naquele breakpoint: `data-speed-p` (celular), `-
 
 De 1440 px para cima os cases têm um layout só, e o `Base.astro` o escala com a janela pela variável `--zoom` (largura / 1500). `tools/one-desktop.py` removeu os presets maiores do Framer e ajustou os `sizes`. Ele roda uma vez sobre a saída do conversor: rodar duas vezes duplica o `calc`.
 
-Como o `zoom` multiplica px e `translate`, `scroll.ts` e `media-liquid.ts` dividem por ele.
+Como o `zoom` multiplica px e `translate`, `scroll.ts` divide por ele.
 
 ## Mídia
 
