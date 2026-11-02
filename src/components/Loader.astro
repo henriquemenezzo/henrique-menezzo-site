@@ -1,5 +1,5 @@
 ---
-// Abertura da home, só com CSS. Tempos do Loader do Framer: entra aos 0.4s, sai aos 1.4s.
+// Abertura da home, só com CSS. Mesma sequência do Loader do Framer, em pouco mais da metade do tempo.
 ---
 
 <div class="loader" aria-hidden="true">
@@ -23,7 +23,7 @@
     z-index: 30;
     overflow: hidden;
     pointer-events: none;
-    animation: loader-gone 0s linear 2.7s forwards;
+    animation: loader-gone 0s linear 1.6s forwards;
   }
 
   .loader-bg {
@@ -31,7 +31,7 @@
     inset: 0;
     background: #f2f2f7;
     transform-origin: top;
-    animation: loader-lift 1s var(--ease-loader) 1.7s forwards;
+    animation: loader-lift 0.65s var(--ease-loader) 0.95s forwards;
   }
 
   .loader-center {
@@ -69,14 +69,14 @@
     display: block;
     transform: translateY(104px);
     animation:
-      word-in 0.4s var(--ease-loader) 0.4s forwards,
-      word-out 0.8s var(--ease-loader) 1.4s forwards;
+      word-in 0.3s var(--ease-loader) 0.15s forwards,
+      word-out 0.5s var(--ease-loader) 0.75s forwards;
   }
 
   .word.w3 span {
     animation:
-      word-in 0.6s var(--ease-loader) 0.4s forwards,
-      word-out 0.6s var(--ease-loader) 1.4s forwards;
+      word-in 0.4s var(--ease-loader) 0.15s forwards,
+      word-out 0.45s var(--ease-loader) 0.75s forwards;
   }
 
   .loader-line {
@@ -85,7 +85,7 @@
     margin-top: 20px;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.15);
-    animation: line-out 1s var(--ease-loader) 1.4s forwards;
+    animation: line-out 0.6s var(--ease-loader) 0.75s forwards;
   }
 
   .loader-line div {
@@ -93,7 +93,7 @@
     background: #000;
     transform: scaleX(0.1);
     transform-origin: left;
-    animation: bar-fill 1s var(--ease-loader) 0.4s forwards;
+    animation: bar-fill 0.6s var(--ease-loader) 0.15s forwards;
   }
 
   @keyframes word-in {

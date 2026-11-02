@@ -170,8 +170,9 @@ const chroma = (channel) => {
 };
 const [cr, cg, cb] = [chroma(red), chroma(green), chroma(blue)];
 
-// Limpeza: primeiro os blocos de compressão, depois os degraus das bordas.
-const clean = alongEdges(flatten(flatten(luma, 3.2 * k, 0.0005), 6.5 * k, 0.0004), 3);
+// Limpeza mínima: o filtro só tira o degrau dos blocos de compressão e deixa a textura da pele.
+// Alisar mais que isso deixa o rosto com cara de retoque.
+const clean = alongEdges(flatten(luma, 2 * k, 0.00006), 2);
 
 const restored = richardsonLucy(clean, 1.45 * k, 13);
 const lowest = localExtreme(clean, Math.round(3 * k), Math.min);
@@ -180,8 +181,8 @@ const soft = gaussian(clean, 1.6 * k);
 const broad = gaussian(clean, 28 * k);
 const gap = Math.round(2 * k);
 
-// A restauração entra só em bordas (cílios, óculos, cabelo): em pele lisa ela transforma
-// resto de compressão em textura de pixel.
+// A restauração entra forte em bordas (cílios, óculos, cabelo) e de leve na pele, para ela
+// continuar com textura de foto sem virar resto de compressão.
 const out = Buffer.alloc(PIXELS * 3);
 for (let y = 0; y < SIZE; y++) {
   const down = smooth(0.5, 0.74, y / SIZE);
@@ -195,11 +196,11 @@ for (let y = 0; y < SIZE; y++) {
     const up = soft[clamp(i - gap * SIZE, 0, PIXELS - 1)];
     const under = soft[clamp(i + gap * SIZE, 0, PIXELS - 1)];
     const edge = smooth(0.012, 0.075, Math.hypot(right - left, under - up));
-    const amount = edge;
+    const amount = 0.18 + 0.55 * edge;
 
     const limited = clamp(restored[i], lowest[i] - 0.045, highest[i] + 0.045);
     let l = clean[i] + (limited - clean[i]) * amount;
-    l += (clean[i] - broad[i]) * 0.12; // Claridade: contraste local em raio largo.
+    l += (clean[i] - broad[i]) * 0.08; // Claridade: contraste local em raio largo.
 
     // Sombra profunda usa a versão suave, para os blocos de compressão não aparecerem ao escurecer.
     l = soft[i] + (l - soft[i]) * smooth(0.03, 0.14, l);

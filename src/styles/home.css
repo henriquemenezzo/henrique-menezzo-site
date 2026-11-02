@@ -100,12 +100,12 @@
   border-radius: 200px;
   background: #fff;
   color: #000;
-  animation: cta-in 1.45s var(--spring-rise) 2s both;
+  animation: cta-in 1.15s var(--spring-rise) 1.15s both;
 }
 
 /* Voltando de um projeto não há loader para esperar. */
 .arrived .cta {
-  animation-delay: 0.45s;
+  animation-delay: 0.35s;
 }
 
 .cta-fill {

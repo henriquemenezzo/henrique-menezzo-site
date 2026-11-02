@@ -5,8 +5,8 @@
 (function () {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var COVER = 640; // Duração da subida da cortina, igual ao CSS.
-  var HERO_LIMIT = 700; // ms: rede lenta não pode prender a cortina na tela.
+  var COVER = 500; // Duração da subida da cortina, igual ao CSS.
+  var HERO_LIMIT = 450; // ms: rede lenta não pode prender a cortina na tela.
   var HOME = 'Home';
   var PROJECTS = ['tex', 'babel', 'dare', 'goldcare', 'playground']; // Lista da home, "Next project" e qualquer outro link para um case.
   var root = document.documentElement;

@@ -64,11 +64,10 @@ void main() {
 }`;
 
 const MARGIN = 56; // Folga em volta do container: é onde a borda entorta.
-const MAX_FLOW = 40; // Deslocamento máximo, em px.
-const RESPONSE = 3.2; // Sobe rápido no começo: até um mouse devagar entorta na hora.
+const MAX_FLOW = 36; // Deslocamento máximo, em px.
+const RESPONSE = 2.6; // Sobe rápido no começo: até um mouse devagar entorta.
 const FLOW_WIDTH = 96;
 const LENSES = 3; // Passar o mouse de card em card deixa os anteriores assentarem sozinhos.
-const SCROLL_QUIET = 150; // ms sem rolagem até o efeito poder abrir de novo.
 
 type Media = HTMLImageElement | HTMLVideoElement;
 type Lens = NonNullable<ReturnType<typeof createLens>>;
@@ -79,18 +78,39 @@ const corner = (value: string, size: number) => (value.endsWith('%') ? (parseFlo
 
 // Desenhar imagem ainda não decodificada trava o primeiro hover: o decode roda antes, fora da thread principal.
 const decoded = new WeakSet<Element>();
-const ready = (media: Media) => {
-  if (media instanceof HTMLVideoElement) return media.readyState >= 2;
-  if (decoded.has(media)) return true;
-  decode(media);
-  return false;
-};
 const decode = (image: HTMLImageElement) => {
   image.decode().then(
     () => decoded.add(image),
     () => {},
   );
 };
+
+// O vídeo só baixa ao entrar na tela. Enquanto ele não tem quadro, o pôster faz as vezes dele:
+// o efeito não espera a rede.
+const posters = new WeakMap<HTMLVideoElement, HTMLImageElement>();
+const posterOf = (video: HTMLVideoElement) => {
+  let poster = posters.get(video);
+  const src = video.poster || video.dataset.poster;
+  if (!poster && src) {
+    poster = new Image();
+    poster.src = src;
+    decode(poster);
+    posters.set(video, poster);
+  }
+  return poster && decoded.has(poster) ? poster : null;
+};
+const frameOf = (media: Media) => (media instanceof HTMLVideoElement && media.readyState < 2 ? posterOf(media) : media);
+
+// Pronta é a mídia que já está decodificada ou que ainda nem chegou: nesse caso a tela também está
+// sem ela, e o efeito começa com o que existe e a desenha quando chegar. Só espera o decode, que
+// leva milissegundos e, feito na hora do desenho, travaria a página.
+const ready = (media: Media) => {
+  if (media instanceof HTMLVideoElement) return media.readyState >= 2 || !!posterOf(media) || !posters.get(media)?.complete;
+  if (decoded.has(media) || !media.complete) return true;
+  decode(media);
+  return false;
+};
+let missing = false; // Algum desenho ficou sem uma mídia que ainda está chegando.
 
 // Sobe da mídia até a caixa que o olho enxerga como dela: o card do carrossel, o bloco colorido
 // em volta da tela. Para antes de pegar texto, ícone, faixa inteira ou a seção da página.
@@ -110,6 +130,22 @@ function containerOf(media: Media) {
   }
   boxes.set(media, box);
   return box;
+}
+
+// Onde a mídia fica dentro da caixa, pelo object-fit e object-position dela: desenhar tudo como
+// cover dava zoom nas imagens que não estão assim.
+function fitted(style: CSSStyleDeclaration, rect: DOMRect, ratio: number) {
+  let width = rect.width;
+  let height = rect.height;
+  const fit = style.objectFit;
+  if (fit === 'cover' || fit === 'contain' || fit === 'scale-down' || fit === 'none') {
+    const wider = rect.width / rect.height > ratio;
+    if ((fit === 'cover') === wider) height = (width = rect.width) / ratio;
+    else width = (height = rect.height) * ratio;
+  }
+  const [px, py] = style.objectPosition.split(' ');
+  const place = (value: string | undefined, room: number) => (!value || value.endsWith('%') ? (parseFloat(value ?? '50') / 100) * room : parseFloat(value));
+  return { x: place(px, rect.width - width), y: place(py, rect.height - height), width, height };
 }
 
 function rounded(ctx: CanvasRenderingContext2D, style: CSSStyleDeclaration, rect: DOMRect, x: number, y: number) {
@@ -138,14 +174,19 @@ function paint(ctx: CanvasRenderingContext2D, el: Element, left: number, top: nu
     ctx.fillStyle = style.backgroundColor;
     ctx.fill();
   }
-  if (media) {
-    const ratio = el instanceof HTMLVideoElement ? el.videoWidth / el.videoHeight : el.naturalWidth / el.naturalHeight;
-    const width = rect.width / rect.height < ratio ? rect.height * ratio : rect.width;
-    const height = width / ratio;
+  let frame = media ? frameOf(el) : null;
+  if (frame instanceof HTMLImageElement && !decoded.has(frame)) {
+    if (frame.complete) decode(frame);
+    frame = null;
+  }
+  if (media && !frame) missing = true;
+  if (media && frame) {
+    const ratio = frame instanceof HTMLVideoElement ? frame.videoWidth / frame.videoHeight : frame.naturalWidth / frame.naturalHeight;
+    const shown = fitted(style, rect, ratio);
     rounded(ctx, style, rect, x, y);
     ctx.clip();
-    ctx.drawImage(el, x + (rect.width - width) / 2, y + (rect.height - height) / 2, width, height);
-  } else {
+    ctx.drawImage(frame, x + shown.x, y + shown.y, shown.width, shown.height);
+  } else if (!media) {
     if (style.overflow !== 'visible') {
       rounded(ctx, style, rect, x, y);
       ctx.clip();
@@ -246,6 +287,7 @@ function createLens() {
   let inPlace = false;
   let video: HTMLVideoElement | null = null;
   let live = false;
+  let pending = false;
   let scale = 1;
   let place = '';
   let dpr = 1;
@@ -259,15 +301,18 @@ function createLens() {
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, image);
     if (video) {
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
+      const frame = frameOf(video);
+      if (frame) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, frame);
       return;
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, shot.width, shot.height);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.imageSmoothingQuality = 'high';
+    missing = false;
     paint(ctx, box!, rect.left - margin, rect.top - margin, rect, true);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, shot);
+    pending = missing;
   };
 
   // Vídeo sozinho no container vai direto para a textura, sem passar pelo canvas 2D.
@@ -283,12 +328,11 @@ function createLens() {
       gl.uniform4f(u.map, 0, 0, 1, 1);
       return;
     }
-    const ratio = video.videoWidth / video.videoHeight;
-    const shownWidth = rect.width / rect.height < ratio ? rect.height * ratio : rect.width;
-    const scaleX = rect.width / shownWidth;
-    const scaleY = rect.height / (shownWidth / ratio);
+    const frame = frameOf(video)!;
+    const ratio = frame instanceof HTMLVideoElement ? frame.videoWidth / frame.videoHeight : frame.naturalWidth / frame.naturalHeight;
+    const shown = fitted(getComputedStyle(video), rect, ratio);
     gl.uniform4f(u.box, margin / width, margin / height, rect.width / width, rect.height / height);
-    gl.uniform4f(u.map, (1 - scaleX) / 2, (1 - scaleY) / 2, scaleX, scaleY);
+    gl.uniform4f(u.map, -shown.x / shown.width, -shown.y / shown.height, rect.width / shown.width, rect.height / shown.height);
   };
 
   return {
@@ -342,23 +386,23 @@ function createLens() {
       shown = false;
     },
     // Devolve false quando o rastro se dissolveu e a mídia original pode voltar.
-    render(step: number, x: number, y: number, moved: { x: number; y: number }, over: boolean, scrolling: boolean) {
+    render(step: number, x: number, y: number, moved: { x: number; y: number }, over: boolean) {
       const rect = box!.getBoundingClientRect();
       const left = Math.round((rect.left - margin) * dpr) / dpr;
       const top = Math.round((rect.top - margin) * dpr) / dpr;
       const width = canvas.width / dpr;
       const height = canvas.height / dpr;
 
-      const follow = 1 - 0.5 ** step;
+      const follow = 1 - 0.84 ** step; // Entra aos poucos: o rastro cresce em vez de aparecer pronto.
       const distance = Math.hypot(moved.x, moved.y);
       const push = over && distance ? Math.min(MAX_FLOW, RESPONSE * distance ** 0.8) / distance : 0;
       velocity.x += (moved.x * push - velocity.x) * follow;
       velocity.y += (moved.y * push - velocity.y) * follow;
-      const fade = (scrolling ? 0.8 : 0.925) ** step;
+      const fade = 0.955 ** step; // E volta devagar, como água assentando.
       energy = Math.max(energy * fade, Math.hypot(velocity.x, velocity.y));
       if (energy < 0.4) return false;
 
-      if (live) upload(rect);
+      if (live || pending) upload(rect);
       const parent = anchor!.getBoundingClientRect();
       const next = `translate3d(${(left - parent.left - base.x) / scale}px, ${(top - parent.top - base.y) / scale}px, 0)`;
       if (next !== place) canvas.style.transform = place = next;
@@ -375,7 +419,7 @@ function createLens() {
       gl.uniform1f(f.aspect, width / height);
       // O card anda com o mouse, que fica sempre no meio dele: precisa de alcance até a borda.
       gl.uniform1f(f.radius, Math.min(Math.min(rect.width, rect.height) * (scale === 1 && box!.matches('.card-box') ? 0.85 : 0.5), 420) / height);
-      gl.uniform1f(f.strength, over ? 0.9 : 0);
+      gl.uniform1f(f.strength, over ? 0.55 : 0);
       gl.uniform1f(f.fade, fade);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       flowIndex = 1 - flowIndex;
@@ -416,7 +460,8 @@ export function initMediaLiquid() {
   let frame = 0;
   let last = 0;
   let leaving = false;
-  let scrolledAt = -Infinity;
+  const scrolled = { x: scrollX, y: scrollY };
+  let pointed = false;
   let over: HTMLElement | null = null;
   let stackAt = '';
   let frames = 0;
@@ -453,14 +498,16 @@ export function initMediaLiquid() {
     // O horário do frame pode ser anterior ao do evento que o pediu: sem o piso, o passo sai negativo.
     const step = Math.min(3, Math.max(0.25, (now - last) / 16.67));
     last = now;
-    const moved = { x: pointer.x - seen.x, y: pointer.y - seen.y };
+    // Rolar com o mouse parado em cima da imagem também é movimento: a página anda sob ele.
+    const moved = { x: pointer.x - seen.x + scrollX - scrolled.x, y: pointer.y - seen.y + scrollY - scrolled.y };
     seen.x = pointer.x;
     seen.y = pointer.y;
+    scrolled.x = scrollX;
+    scrolled.y = scrollY;
 
     // O ponto sob o mouse só muda quando ele anda; rolando, basta conferir de vez em quando.
     const speed = Math.hypot(moved.x, moved.y);
     if (speed || !(++frames % 8)) over = boxAt(pointer.x, pointer.y);
-    const scrolling = now - scrolledAt < SCROLL_QUIET;
     const cardOn = !!over && over === cardBox;
 
     // Trocar de projeto desliza os painéis: nesse meio tempo o card é o DOM de verdade.
@@ -472,7 +519,7 @@ export function initMediaLiquid() {
       if (lens) release(lens);
     }
 
-    if (over && !scrolling && !(cardOn && sliding) && speed && !active.some((lens) => lens.box === over)) {
+    if (over && !(cardOn && sliding) && speed && !active.some((lens) => lens.box === over)) {
       const lens = take();
       if (lens) {
         lens.open(over, pointer.x - moved.x, pointer.y - moved.y);
@@ -481,13 +528,17 @@ export function initMediaLiquid() {
     }
 
     for (let i = active.length - 1; i >= 0; i--) {
-      if (!active[i].render(step, pointer.x, pointer.y, moved, active[i].box === over && !scrolling, scrolling)) release(active[i]);
+      if (!active[i].render(step, pointer.x, pointer.y, moved, active[i].box === over)) release(active[i]);
     }
     frame = active.length ? requestAnimationFrame(tick) : 0;
   };
 
   // Sem lente livre, a mais antiga que já não está sob o mouse cede a vez: o hover nunca espera.
   const take = () => {
+    if (!pool.length && active.length < LENSES) {
+      const lens = createLens();
+      if (lens) pool.push(lens);
+    }
     if (!pool.length) {
       const oldest = active.find((lens) => lens.box !== over);
       if (oldest) release(oldest);
@@ -505,16 +556,30 @@ export function initMediaLiquid() {
       if (e.pointerType === 'touch') return;
       pointer.x = e.clientX;
       pointer.y = e.clientY;
+      if (!pointed) {
+        pointed = true;
+        seen.x = pointer.x;
+        seen.y = pointer.y;
+      }
       if (frame || leaving) return;
       last = performance.now();
       frame = requestAnimationFrame(tick);
     },
     { passive: true },
   );
-  addEventListener('scroll', () => (scrolledAt = performance.now()), { passive: true });
+  addEventListener(
+    'scroll',
+    () => {
+      if (!pointed || frame || leaving) return;
+      last = performance.now();
+      frame = requestAnimationFrame(tick);
+    },
+    { passive: true },
+  );
   addEventListener('resize', closeAll, { passive: true });
+  document.addEventListener('mouseleave', () => (pointed = false));
   // O WebGL demora para nascer: as lentes ficam prontas, uma por vez, antes de serem precisas.
-  const later = (run: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(run) : setTimeout(run, 200));
+  const later = (run: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(run, { timeout: 300 }) : setTimeout(run, 100));
   // As imagens são decodificadas antes de chegarem perto do mouse, e as do card nem esperam o hover.
   const nearby = new IntersectionObserver(
     (entries) => {
